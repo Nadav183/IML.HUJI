@@ -23,7 +23,13 @@ def load_data(filename: str):
     Design matrix and response vector (prices) - either as a single
     DataFrame or a Tuple[DataFrame, Series]
     """
-    raise NotImplementedError()
+    df = pd.read_csv(filename)
+    y = df["price"]
+    X = df[[
+        "bedrooms", "bathrooms", "floors", "view", "condition", "grade", "lat", "long", "sqft_living", "sqft_lot",
+        "sqft_living15", "sqft_lot15"
+    ]]
+    return X,y
 
 
 def feature_evaluation(X: pd.DataFrame, y: pd.Series, output_path: str = ".") -> NoReturn:
@@ -43,15 +49,22 @@ def feature_evaluation(X: pd.DataFrame, y: pd.Series, output_path: str = ".") ->
     output_path: str (default ".")
         Path to folder in which plots are saved
     """
-    raise NotImplementedError()
+    print()
+    for column in X:
+        print(X[column].shape, y.shape)
+        print(np.cov(X[column],y)/(np.std(X[column])*np.std(y)))
+        print()
+
+
 
 
 if __name__ == '__main__':
     np.random.seed(0)
     # Question 1 - Load and preprocessing of housing prices dataset
-    raise NotImplementedError()
+    X,y = load_data("../datasets/house_prices.csv")
 
     # Question 2 - Feature evaluation with respect to response
+    print(feature_evaluation(X,y))
     raise NotImplementedError()
 
     # Question 3 - Split samples into training- and testing sets.
